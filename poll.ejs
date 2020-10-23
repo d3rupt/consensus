@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="poll.css" />
+<body>
+  <div class="container topWrapper">
+    <div class="container topRow">
+      <div class="container topRowItem" id="fb">
+
+      </div>
+      <div class="container topRowItem" id="twitter">
+
+      </div>
+      <div class="container topRowItem" id="search">
+
+      </div>
+      <div class="container topRowItem" id="create">
+
+      </div>
+      <div class="container topRowItem" id="singIn">
+
+      </div>
+      <div class="container topRowItem" id="logIn">
+
+      </div>
+    </div>
+    <div class="container title">
+      <div class="container titleTitle">
+        <h1>Consensus</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container mainWrapper">
+    <div class="container pollForm">
+      <div class="container mainTitle">
+        <h3>Create a poll</h3>
+      </div>
+      <div class="container pollMain">
+        <p>
+          Title
+        </p>
+        <input type="text" id="pollTitle" required/>
+        <p>
+          Description (optional)
+        </p>
+        <input type="text" id="pollDesc" />
+        <div class="container pollOptions">
+          <div class="container" id="answerDiv">
+          <p>
+            Answer options
+          </p>
+            <button class="addOption">+</button>
+          </div>
+
+          <input type="text" id="pollOption" />
+        <div class="container" id="pollOptions">
+          <ul class="container optionsList">
+          </ul>
+        </div>
+          <div class="container submitButton">
+            <div class="container submit">Submit</div>
+          </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="poll.js"></script>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="poll.css" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/6cc08cc3c7.js" crossorigin="anonymous"></script>
+<body>
+  <div class="container loader">
+
+  </div>
+  <div class="container topWrapper">
+    <div class="container topRow">
+      <div class="container topRowItem" id="search">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="container topRowItem" id="create" onclick="
+        window.location.href='/list'
+      ">
+        <p>
+          All Polls
+        </p>
+      </div>
+      <div class="container topRowItem" id="singIn">
+
+      </div>
+      <div class="container topRowItem" id="logIn">
+
+      </div>
+    </div>
+    <div class="container title">
+      <div class="container titleTitle">
+        <h1>Consensus</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container mainWrapper">
+    <div class="container pollForm">
+      <div class="container mainTitle">
+        <h3>Create a poll</h3>
+      </div>
+      <div class="container pollTitle">
+        <p>
+          Title
+        </p>
+        <input type="text" id="pollTitle" placeholder="Poll Title"/>
+      </div>
+
+      <div class="container pollDesc">
+        <p>
+          Description (optional)
+        </p>
+        <input type="text" id="pollDesc" placeholder="Poll Description"/>
+      </div>
+
+        <div class="container pollOptions">
+          <div class="container" id="answerDiv">
+          <p>
+            Answer options
+          </p>
+          <button class="addOption">+</button>
+          </div>
+          <div class="container pollAddInput">
+            <input type="text" id="pollOption" placeholder="Type an option and use the add button"/>
+          </div>
+
+        <div class="container" id="pollOptions">
+          <ul class="container optionsList">
+          </ul>
+        </div>
+
+      </div>
+          <div class="container submitButton">
+            <div class="container" id="submit">Submit
+              <div class="container waiting">
+                <i class="far fa-clock"></i>
+              </div>
+              <div class="container finished">
+                <i class="fas fa-check"></i>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<script src="poll.js"></script>
+
+</html>

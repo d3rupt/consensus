@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body>
+  <div class="container topWrapper">
+    <div class="container topRow">
+      <div class="container topRowItem" id="fb">
+
+      </div>
+      <div class="container topRowItem" id="twitter">
+
+      </div>
+      <div class="container topRowItem" id="search">
+
+      </div>
+      <div class="container topRowItem" id="create">
+
+      </div>
+      <div class="container topRowItem" id="singIn">
+
+      </div>
+      <div class="container topRowItem" id="logIn">
+
+      </div>
+    </div>
+    <div class="container title">
+      <div class="container titleTitle">
+        <h1>Consensus</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container pollWrapper">
+    <div class="container pollView">
+      <div class="container pollViewTitle">
+        <p id="pollViewTitle">
+
+        </p>
+      </div>
+      <div class="container pollViewDescription">
+        <p id="pollViewDescription">
+
+        </p>
+      </div>
+      <div class="container pollViewOptions">
+        <div id="pollViewOptions">
+
+        </div>
+      </div>
+      <div class="container pollViewAdd">
+        <input type="text" id="pollViewAdd" />
+        <button id="pollAdd">+</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+let xhttp = new XMLHttpRequest;
+let title = document.getElementById('pollViewTitle');
+let description = document.getElementById('pollViewDescription');
+let options = document.getElementById('pollViewOptions');
+let addOption = document.getElementById('pollAdd');
+
+window.onload = getPoll();
+
+function getPoll() {
+  let pollResp;
+  options = document.getElementById('pollViewOptions');
+    xhttp.onreadystatechange = (e) => {
+      if (xhttp.readyState == XMLHttpRequest.DONE) {
+        pollResp = JSON.parse(xhttp.responseText);
+        title.innerHTML = pollResp.title;
+        description.innerHTML = pollResp.description;
+        console.log('options1111: ' + pollResp.options);
+        let optionItem;
+        pollResp.options.forEach(p => {
+          console.log('p: ' + p);
+          let optionContainer = document.createElement("DIV");
+          optionContainer.classList.add('optionContainer');
+          optionItem = document.createElement("DIV");
+          optionItem.classList.add('option');
+          optionItem.textContent = p;
+          optionContainer.appendChild(optionItem);
+
+          let optionCounter = document.createElement("DIV");
+          optionCounter.classList.add('counter');
+
+          console.log('got some votes');
+          console.log(pollResp.votes);
+          console.log(pollResp.options);
+          optionCounter.textContent = pollResp.votes[pollResp.options.indexOf(p)];
+
+          optionContainer.appendChild(optionCounter);
+          options.appendChild(optionContainer);
+      })
+      let votes = [];
+      document.querySelectorAll('.counter').forEach (c => {
+        c = c.textContent * 1;
+        votes.push(c);
+      })
+      let highestVote = Math.max(...votes);
+        document.querySelectorAll('.counter').forEach (c => {
+          if (c.textContent == highestVote.toString()) {
+            c.style.background = "green";
+          }
+        })
+    }
+    }
+  xhttp.open('GET', '/pollId', true);
+  xhttp.send();
+}
+
+options.addEventListener("click", event => {
+  console.log('clicked');
+  if (event.target.classList.contains('option')) {
+      event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+  //  event.target.remove(event.target.parentElement);
+    //event.target.remove();
+  }
+  if (event.target.classList.contains('counter')) {
+    let count = (event.target.innerHTML * 1) + 1;
+    event.target.innerHTML = count.toString();
+  }
+  editPoll();
+
+});
+addOption.addEventListener("click", event => {
+  console.log('click');
+  let optionContainer = document.createElement("DIV");
+  optionContainer.classList.add('optionContainer');
+
+  let addOption1 = document.createElement("DIV");
+  addOption1.classList.add('option');
+  let optionCounter = document.createElement("DIV");
+  optionCounter.classList.add('counter');
+  optionCounter.innerHTML = "0";
+  let input = document.getElementById('pollViewAdd');
+  if (input.value.length > 0) {
+  addOption1.textContent = input.value;
+  input.value = "";
+  optionContainer.appendChild(addOption1);
+  optionContainer.appendChild(optionCounter);
+  options.appendChild(optionContainer);
+  editPoll();
+} else {
+  alert("You need to type something.");
+}
+})
+
+function editPoll() {
+  options = document.getElementById('pollViewOptions');
+  let optionsToSend = options.querySelectorAll('.option');
+  let optionsCounters = options.querySelectorAll('.counter');
+  let optionsList = [];
+  let countersList = [];
+  for(let x = 0; x < optionsToSend.length; x++) {
+  //  console.log('optinosToSend: ' + optionsToSend[x].textContent);
+    optionsList.push(optionsToSend[x].textContent);
+  }
+  for (let y = 0; y < optionsCounters.length; y++) {
+    countersList.push(optionsCounters[y].textContent);
+  }
+  console.log('counters: ' + countersList);
+  console.log('options: ' + optionsList);
+
+//  console.log('optionsNcounters: ' + optionsNcounters);
+  xhttp.open("POST", "/editpoll", true);
+  xhttp.setRequestHeader('Content-Type', 'application/json');
+  console.log('optionslist: ' +  optionsList);
+  console.log('counterslist: ' +  countersList);
+  xhttp.send(JSON.stringify({'options': optionsList, 'votes': countersList}));
+  document.location.reload()
+}
+</script>
+</html>

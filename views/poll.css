@@ -1,0 +1,183 @@
+/*General*/
+* {
+  font-family: "Roboto";
+  box-sizing: border-box;
+}
+.container {
+  display: flex;
+}
+::placeholder {
+  font-size: 90%;
+}
+
+body {
+  background: url('https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?cs=srgb&dl=pexels-felix-mittermeier-956999.jpg&fm=jpg');
+  margin: 0;
+  padding: 0;
+}
+input {
+  background: rgba(0,0,0,0.025);
+  outline: none;
+  width: 80%;
+  border-top-style: hidden;
+  /*border-left: 1px solid rgb(57, 113, 250);*/
+  border-left-style: hidden;
+  border-bottom: 1px solid rgb(57, 113, 250);
+  border-right-style: hidden;
+  border-radius: 1px;
+  transition: all 0.25s;
+}
+input:focus {
+  background: white;
+}
+/*Top*/
+.loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  opacity: 1;
+  transition: opacity 1s;
+}
+.loaded {
+  opacity: 0;
+}
+.topWrapper {
+  flex-direction: column;
+  height: 20vh;
+}
+.topRow {
+  background: #333;
+  height: 5vh;
+  width: 100%;
+}
+.topRow div {
+  height: 100%;
+  width: 25%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+  color: white;
+  font-size: 90%;
+}
+#search {
+  width: 50%;
+}
+#list {
+  height: 100%;
+  color: white;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.title {
+  color: white;
+  background: rgba(0,0,0,0.5);
+  height: 60%;
+  align-items: center;
+  justify-content: center;
+}
+/*Main*/
+.mainWrapper {
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: 80vh;
+  margin-top: 5%;
+}
+.mainTitle {
+
+    align-items: center;
+  justify-content: center;
+}
+
+.pollForm div {
+  flex-direction: column;
+  width: 100%;
+}
+.pollForm {
+  background: white;
+    flex-direction: column;
+    height: 100%;
+  width: 80%;
+  border-radius: 3px;
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+  padding-bottom: 5%;
+
+}
+.pollTitle, .pollDesc, .pollOptions {
+  justify-content: flex-start;
+  height: 20%;
+  padding-left: 5%;
+}
+.mainTitle {
+  height: 15%;
+}
+.pollOptions {
+ height: auto;
+}
+#pollOptions {
+  flex-direction: column;
+}
+.optionsList {
+  flex-direction: column;
+
+}
+.pollAddButton {
+  border: 1px solid red;
+}
+#answerDiv {
+  padding-right: 50%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.addOption {
+  text-justify: center;
+  width: 20%;
+  height: 50%;
+  text-align: center;
+}
+.submitButton {
+  align-items: center;
+}
+#submit {
+  position: relative;
+  color: white;
+  background: #333;
+  border: 1px solid white;
+  outline: 2px solid darkred;
+  width: 50%;
+  text-align: center;
+  overflow: hidden;
+}
+.waiting, .finished {
+  position: absolute;
+  top: 0;
+  left: -100%;;
+  width: 100%;
+  height: 100%;
+  transition: all 0.25s;
+  align-items: center;
+  justify-content: center;
+}
+.waiting {
+  background: white;
+  color: #333;
+}
+i {
+  font-size: 75%;
+}
+.fa-clock {
+  color: #333;
+}
+.fa-check {
+  color: white;
+  text-shadow: 0, 0, 30px white;
+}
+.active {
+  color: rgba(0,0,0,0.25);
+}
+.finished {
+  background: green;
+}

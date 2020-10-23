@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/6cc08cc3c7.js" crossorigin="anonymous"></script>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: "Roboto";
+  list-style: none;
+}
+.container {
+  display: flex;
+}
+body {
+  background: url('https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?cs=srgb&dl=pexels-felix-mittermeier-956999.jpg&fm=jpg');
+  margin: 0;
+  padding: 0;
+}
+.loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  opacity: 1;
+  transition: opacity 1s;
+}
+.loaded {
+  opacity: 0;
+}
+.topWrapper {
+  width: 100%;
+}
+.title {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: rgba(0,0,0,0.5);
+}
+
+.topWrapper {
+  flex-direction: column;
+  width: 100%;
+}
+.topRow {
+  background: #333;
+  height: 5vh;
+  width: 100%;
+}
+.topRow div {
+  text-align: center;
+  height: 100%;
+  width: 25%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #333;
+  color: white;
+  font-size: 75%;
+}
+#search {
+  width: 50%;
+}
+.listWrapper {
+  flex-direction: column;
+}
+.listWrapper h2 {
+  color: white;
+  text-align: center;
+  background: rgba(0,0,0,0.5);
+  width: 70%;
+}
+
+.listTitle {
+  width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+#pollList {
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+#pollList li {
+  box-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+  width: 90%;
+  height: 15vh;
+  margin: 2.5%;
+}
+.pollName {
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+  background: white;
+
+}
+.pollNameX {
+  border: 1px solid red;
+  width: 80%;
+  text-align: center;
+  word-wrap: break-word;
+}
+.deletePoll {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 40%;
+  font-size: 80%;
+  background: white;
+
+}
+</style>
+<body>
+  <div class="container loader">
+
+  </div>
+  <div class="container topWrapper">
+    <div class="container topRow">
+      <div class="container topRowItem" id="search">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="container topRowItem" id="create" onclick="window.location.href='/'">
+        <p>
+          Create Poll
+        </p>
+      </div>
+      <div class="container topRowItem" id="singIn">
+
+      </div>
+      <div class="container topRowItem" id="logIn">
+
+      </div>
+    </div>
+    <div class="container title">
+      <div class="container titleTitle">
+        <h1>Consensus</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container listWrapper">
+    <div class="container listTitle">
+      <h2>Currently Active Polls</h2>
+    </div>
+    <div class="container pollList">
+    <ul class="container" id="pollList">
+
+    </ul>
+  </div>
+
+  </div>
+</body>
+
+<script>
+let xhttp = new XMLHttpRequest;
+let pollList = document.getElementById("pollList");
+  window.onload = () => {
+    let loader = document.querySelector('.loader');
+    loader.classList.add('loaded')
+    loader.addEventListener('transitionend', () => {
+      console.log('loaded');
+      loader.style.display="none";
+    })
+    getPolls();
+  }
+  function getPolls() {
+
+
+    xhttp.onload = () => {
+      if (xhttp.readyState == XMLHttpRequest.DONE && xhttp.status == 200) {
+        console.log('type of response: ' + typeof(xhttp.responseText));
+        let polls = JSON.parse(xhttp.responseText);
+        console.log('response text JSON: ' + typeof(polls));
+        polls.forEach(p => {
+          let pollItem = document.createElement("li");
+          pollItem.classList.add("container", "poll");
+          console.log('p: ' + p.title);
+          let pollName = document.createElement("DIV");
+          pollName.id = p._id;
+          pollName.classList.add("container", "pollName");
+          let pollNameX = document.createElement("P");
+          pollNameX.classList.add("pollNameX");
+          pollNameX.innerHTML = p.title;
+          pollName.appendChild(pollNameX);
+          let deletePoll = document.createElement("DIV");
+          let deletePollX = document.createElement("P");
+          deletePoll.classList.add("container", "deletePoll");
+          deletePollX.textContent = p.dateCreated;
+          deletePoll.appendChild(deletePollX);
+          pollList.appendChild(pollItem);
+          pollItem.appendChild(pollName)
+          pollItem.appendChild(deletePoll);
+        })
+      }
+    }
+    xhttp.open("GET", "/getlist", true);
+    xhttp.send();
+  }
+  pollList.addEventListener("click", (event) => {
+    let pollId;
+    if (event.target.classList.contains("pollName")) {
+      pollId = event.target.id
+    } else if (event.target.classList.contains("pollNameX")) {
+        pollId = event.target.parentElement.id;
+      } else {return;}
+      console.log('clicked' + event.target.id);
+      console.log('pollId: ' + pollId);
+      xhttp.open("POST", `/pollId`, true);
+      xhttp.setRequestHeader('Content-Type', 'application/json');
+      console.log('test before send: ' + pollId);
+      xhttp.send(JSON.stringify({'id': pollId}));
+      window.location.href = "/showPoll";
+   /*if (event.target.classList.contains("deletePoll")) {
+    pollId = event.target.parentElement.id;
+      xhttp.open("POST", "/delpoll");
+      xhttp.setRequestHeader('Content-Type', 'application/json');
+      xhttp.send(JSON.stringify({'id': pollId}));
+      document.location.reload()
+  }*/
+
+}, true)
+
+</script>
+</html>
