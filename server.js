@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 app.use(express.static('./views'));
+const PORT = process.env.PORT || 8000;
 
 
 app.set('view-engine', 'ejs');
@@ -82,4 +83,4 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 
 db.once('open', () => console.log('Database connected.'));
-app.listen(8000, () => console.log('listening'));
+app.listen(PORT, () => console.log('listening'));
