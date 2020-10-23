@@ -78,7 +78,7 @@ app.post("/delpoll", async (req, res) => {
 catch (err) {
   console.log(err);
 }})
-mongoose.connect('mongodb://localhost/polls', { useNewUrlParser: true});
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/polls', { useNewUrlParser: true});
 const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 
