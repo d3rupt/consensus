@@ -74,24 +74,20 @@ submit.addEventListener("click", () => {
           document.querySelector('.waiting').style.left = "-100%";
       }, 2300);
 
-
-
-  /*fetch('/submitPoll', reqOptions)
-  .then(() => {
-  })
-  .then(response => {
-    if (response.ok) {
-    }
-  })
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
-  }
-}
-const reqOptions = {
-  method: "POST",
-  body: JSON.stringify(finalPoll),
-  headers: {
-    'Content-type': 'application/json'*/
   }
 }
 );
+
+function getPages(page) {
+  let getPage = new XMLHttpRequest();
+  getPage.open('GET', page, true);
+  getPage.onload = function() {
+    if (getPage.status >= 200 && getPage.status < 400) {
+      var resp = getPage.responseText;
+      document.querySelector('.mainWrapper').innerHTML = resp;
+    }
+  };
+getPage.send();
+}
+
+//List
