@@ -88,12 +88,12 @@ input:focus {
   align-items: center;
   justify-content: center;
   width: 50%;
+  height: 100%;
   font-size: 1em;
   cursor: pointer;
 }
 
 #pollListTop {
-  height: 100%;
 }
 #pollCreateTop {
   background: rgb(255, 63, 0);
