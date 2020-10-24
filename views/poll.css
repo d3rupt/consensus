@@ -11,7 +11,7 @@
 }
 
 body {
-  background: url('https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?cs=srgb&dl=pexels-felix-mittermeier-956999.jpg&fm=jpg');
+  background: url('embossedbackground.png');
   margin: 0;
   padding: 0;
 }
@@ -32,6 +32,7 @@ input:focus {
 }
 /*Top*/
 .loader {
+  z-index: 10000;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -48,35 +49,45 @@ input:focus {
 }
 .topRow {
   background: #333;
-  height: 5vh;
+  height: 10vh;
   width: 100%;
 }
 .topRow div {
+  text-align: center;
   height: 100%;
   width: 25%;
   align-items: center;
   justify-content: center;
   border: 1px solid #333;
   color: white;
-  font-size: 90%;
 }
-#search {
+#title {
+  justify-content: center;
+  align-items: center;
+  padding: 0 2.5%;
   width: 50%;
+  font-size: 75%;
 }
-#list {
-  height: 100%;
-  color: white;
-  transition: all 0.15s;
-  cursor: pointer;
-}
-
-.title {
-  color: white;
-  background: rgba(0,0,0,0.5);
-  height: 60%;
+#title i {
+  color: rgba(255,255,255,0.75);
+  background: linear-gradient(red, black);
+  width: 5vh;
+  height: 5vh;
+  border-radius: 40%;
   align-items: center;
   justify-content: center;
+  margin: 1%;
 }
+#title h2 {
+  font-size: 75%;
+}
+#search {
+  width: 30%;
+}
+#create {
+  width: 20%;
+}
+
 /*Main*/
 .mainWrapper {
   align-items: center;
@@ -86,7 +97,6 @@ input:focus {
   margin-top: 5%;
 }
 .mainTitle {
-
     align-items: center;
   justify-content: center;
 }
@@ -165,13 +175,13 @@ input:focus {
   background: white;
   color: #333;
 }
-i {
-  font-size: 75%;
-}
+
 .fa-clock {
+  font-size: 75%;
   color: #333;
 }
 .fa-check {
+  font-size: 75%;
   color: white;
   text-shadow: 0, 0, 30px white;
 }

@@ -1,6 +1,69 @@
 <!DOCTYPE html>
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<style>
+* {
+  font-family: "Roboto";
+}
+.container {
+  display: flex;
+}
+body {
+  background: url('embossedbackground.png');
+}
+.topWrapper {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pollWrapper {
+  align-items: center;
+  justify-content: center;
+}
+.pollView {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background: white;
+  width: 80%;
+  height: 60vh;
+}
+#pollViewTitle1 {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 15vh;
+  font-size: 1.5em;
+}
+#pollViewTitle {
+  height: auto;
+}
+.pollViewDescription {
+  font-size: 0.75em;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.pollViewOptions {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.option, .counter {
+  text-align: center;
+
+}
+.counter {
+  border: 2px solid #333;
+  color: white;
+  background: grey;
+}
+.highest {
+  background: green;
+  box-shadow: 0 0 5px green;
+}
+</style>
 <body>
   <div class="container topWrapper">
     <div class="container topRow">
@@ -23,15 +86,10 @@
 
       </div>
     </div>
-    <div class="container title">
-      <div class="container titleTitle">
-        <h1>Consensus</h1>
-      </div>
-    </div>
   </div>
   <div class="container pollWrapper">
     <div class="container pollView">
-      <div class="container pollViewTitle">
+      <div class="container pollViewTitle" id="pollViewTitle1">
         <p id="pollViewTitle">
 
         </p>
@@ -70,7 +128,7 @@ function getPoll() {
       if (xhttp.readyState == XMLHttpRequest.DONE) {
         pollResp = JSON.parse(xhttp.responseText);
         title.innerHTML = pollResp.title;
-        description.innerHTML = pollResp.description;
+        description.innerHTML = pollResp.description || 'Usually a description goes here...';
         console.log('options1111: ' + pollResp.options);
         let optionItem;
         pollResp.options.forEach(p => {
@@ -101,7 +159,7 @@ function getPoll() {
       let highestVote = Math.max(...votes);
         document.querySelectorAll('.counter').forEach (c => {
           if (c.textContent == highestVote.toString()) {
-            c.style.background = "green";
+            c.classList.add('highest');
           }
         })
     }
@@ -114,8 +172,6 @@ options.addEventListener("click", event => {
   console.log('clicked');
   if (event.target.classList.contains('option')) {
       event.target.parentNode.parentNode.removeChild(event.target.parentNode);
-  //  event.target.remove(event.target.parentElement);
-    //event.target.remove();
   }
   if (event.target.classList.contains('counter')) {
     let count = (event.target.innerHTML * 1) + 1;

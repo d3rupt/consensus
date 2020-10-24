@@ -11,6 +11,8 @@ app.set('view-engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(express.static('./views'));
+
 
 app.get('/', async(req, res) => {
   res.render('poll.ejs')
@@ -80,7 +82,7 @@ catch (err) {
 }})
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/polls', { useNewUrlParser: true});
 const db = mongoose.connection;
-db.on('error', (error) => console.error(error));
+db.on('error', (error) => console.error('DB ERROR: ' + error));
 
 db.once('open', () => console.log('Database connected.'));
 app.listen(PORT, () => console.log('listening'));

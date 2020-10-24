@@ -14,7 +14,7 @@
   display: flex;
 }
 body {
-  background: url('https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?cs=srgb&dl=pexels-felix-mittermeier-956999.jpg&fm=jpg');
+  background: url('embossedbackground.png');
   margin: 0;
   padding: 0;
 }
@@ -46,7 +46,7 @@ body {
 }
 .topRow {
   background: #333;
-  height: 5vh;
+  height: 10vh;
   width: 100%;
 }
 .topRow div {
@@ -59,8 +59,30 @@ body {
   color: white;
   font-size: 75%;
 }
-#search {
+#title {
+  justify-content: space-around;
+  padding: 0 2.5%;
   width: 50%;
+}
+#title i {
+  color: rgba(255,255,255,0.75);
+
+  background: linear-gradient(red, black);
+  width: 5vh;
+  height: 5vh;
+  border-radius: 40%;
+  align-items: center;
+  justify-content: center;
+  margin: 1%;
+}
+#title h2 {
+
+}
+#search {
+  width: 30%;
+}
+#create {
+  width: 20%;
 }
 .listWrapper {
   flex-direction: column;
@@ -68,8 +90,10 @@ body {
 .listWrapper h2 {
   color: white;
   text-align: center;
-  background: rgba(0,0,0,0.5);
+  text-shadow: 5px 5px 3px rgba(0,0,0,0.5);
   width: 70%;
+  padding: 2.5% 2.5%;
+  letter-spacing: 0.1em;
 }
 
 .listTitle {
@@ -87,7 +111,7 @@ body {
   justify-content: center;
 }
 #pollList li {
-  box-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+  box-shadow: 7px 7px 3px rgba(0,0,0,0.5);
   width: 90%;
   height: 15vh;
   margin: 2.5%;
@@ -100,7 +124,6 @@ body {
 
 }
 .pollNameX {
-  border: 1px solid red;
   width: 80%;
   text-align: center;
   word-wrap: break-word;
@@ -112,8 +135,8 @@ body {
   width: 40%;
   font-size: 80%;
   background: white;
-
 }
+
 </style>
 <body>
   <div class="container loader">
@@ -121,6 +144,10 @@ body {
   </div>
   <div class="container topWrapper">
     <div class="container topRow">
+      <div class="container topRowItem" id="title">
+        <i class="container fas fa-poll"></i>
+        <h1>Consensus</h1>
+      </div>
       <div class="container topRowItem" id="search">
         <i class="fas fa-search"></i>
       </div>
@@ -132,13 +159,10 @@ body {
       <div class="container topRowItem" id="singIn">
 
       </div>
-      <div class="container topRowItem" id="logIn">
 
-      </div>
     </div>
     <div class="container title">
       <div class="container titleTitle">
-        <h1>Consensus</h1>
       </div>
     </div>
   </div>
