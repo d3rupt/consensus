@@ -167,12 +167,13 @@
     border: 2px solid #333;
     color: white;
     background: grey;
-    transition: background 0.5s, box-shadow 0.5s;
+    transition: background 1s, box-shadow 1s;
   }
   .highest {
     background: green;
     box-shadow: 0 0 5px green;
-    transition: all 0.5s;
+    transition: background 1s, box-shadow 1s;
+
   }
 </style>
 <body style=" background-image: url('/embossedbackground22.png');
@@ -268,14 +269,11 @@ function getPoll() {
   for (let y = 0; y < optionsCounters.length; y++) {
     countersList.push(optionsCounters[y].textContent);
   }
-
-//  console.log('optionsNcounters: ' + optionsNcounters);
   xhttp.open("POST", "/editpoll", true);
   xhttp.setRequestHeader('Content-Type', 'application/json');
   console.log('optionslist: ' +  optionsList);
   console.log('counterslist: ' +  countersList);
   xhttp.send(JSON.stringify({'options': optionsList, 'votes': countersList}));
-//  document.location.reload()/////////////////////////////////
 
   let pollResp;
   options = document.getElementById('pollViewOptions');
@@ -291,6 +289,12 @@ function getPoll() {
         pollOptions[p].innerHTML = pollData.options[p];
         pollCounters[p].innerHTML = pollData.votes[p];
       }
+    }
+  }
+      let edits = document.getElementById('pollId').textContent;
+      edits = edits.replace(/\s+/g, '')
+      xhttp.open('GET', `/refresh/?poll=${edits}`, true);
+      xhttp.send();
 
       let votes = [];
       document.querySelectorAll('.counter').forEach (c => {
@@ -307,13 +311,7 @@ function getPoll() {
           }
          }
       })
-    }
 
-  }
-      let edits = document.getElementById('pollId').textContent;
-      edits = edits.replace(/\s+/g, '')
-      xhttp.open('GET', `/refresh/?poll=${edits}`, true);
-      xhttp.send();
 }
 
 options.addEventListener("click", event => {
@@ -325,7 +323,6 @@ options.addEventListener("click", event => {
     let count = (event.target.innerHTML * 1) + 1;
     event.target.innerHTML = count.toString();
   }
-  //editPoll();
   getPoll();
 });
 
