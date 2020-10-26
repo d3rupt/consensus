@@ -28,7 +28,7 @@
   }
 
   input {
-    background: rgba(0,0,0,0.025);
+    background: rgba(0,0,0,0.05);
     outline: none;
     width: 80%;
     border-top-style: hidden;
@@ -60,6 +60,7 @@
     height: 20vh;
   }
   .topRow {
+    position: sticky;
     background: #333;
     height: 7.5vh;
     width: 100%;
@@ -132,6 +133,7 @@
     height: auto;
   }
   .pollViewDescription {
+    flex-direction: column;
     font-size: 0.75em;
     width: 100%;
     align-items: center;
@@ -144,6 +146,16 @@
     justify-content: center;
     margin-bottom: 5%;
   }
+  #pollId {
+    color: white;
+    font-size: 0.25em;
+  }
+  #pollAdd {
+    background: rgb(255,63,0);
+    color: white;
+    outline: none;
+    border: none;
+  }
   .optionContainer {
     flex-direction: column;
   }
@@ -155,10 +167,12 @@
     border: 2px solid #333;
     color: white;
     background: grey;
+    transition: background 0.5s, box-shadow 0.5s;
   }
   .highest {
     background: green;
     box-shadow: 0 0 5px green;
+    transition: all 0.5s;
   }
 </style>
 <body style=" background-image: url('/embossedbackground22.png');
@@ -205,6 +219,9 @@
         <p id="pollViewDescription">
           <%= description %>
         </p>
+        <p id="pollId">
+          <%= id %>
+        </p>
       </div>
       <div class="container pollViewOptions">
         <div id="pollViewOptions">
@@ -238,35 +255,43 @@ let addOption = document.getElementById('pollAdd');
 window.onload = getPoll();
 
 function getPoll() {
+  /////////////////////////////////
+  options = document.getElementById('pollViewOptions');
+  let optionsToSend = options.querySelectorAll('.option');
+  let optionsCounters = options.querySelectorAll('.counter');
+  let optionsList = [];
+  let countersList = [];
+  for(let x = 0; x < optionsToSend.length; x++) {
+  //  console.log('optinosToSend: ' + optionsToSend[x].textContent);
+    optionsList.push(optionsToSend[x].textContent);
+  }
+  for (let y = 0; y < optionsCounters.length; y++) {
+    countersList.push(optionsCounters[y].textContent);
+  }
+
+//  console.log('optionsNcounters: ' + optionsNcounters);
+  xhttp.open("POST", "/editpoll", true);
+  xhttp.setRequestHeader('Content-Type', 'application/json');
+  console.log('optionslist: ' +  optionsList);
+  console.log('counterslist: ' +  countersList);
+  xhttp.send(JSON.stringify({'options': optionsList, 'votes': countersList}));
+//  document.location.reload()/////////////////////////////////
+
   let pollResp;
   options = document.getElementById('pollViewOptions');
-  /*  xhttp.onreadystatechange = (e) => {
-      if (xhttp.readyState == XMLHttpRequest.DONE) {
-        pollResp = JSON.parse(xhttp.responseText);
-        title.innerHTML = pollResp.title;
-        description.innerHTML = pollResp.description || 'Usually a description goes here...';
-        console.log('options1111: ' + pollResp.options);
-        let optionItem;
-        pollResp.options.forEach(p => {
-          console.log('p: ' + p);
-          let optionContainer = document.createElement("DIV");
-          optionContainer.classList.add('optionContainer');
-          optionItem = document.createElement("DIV");
-          optionItem.classList.add('option');
-          optionItem.textContent = p;
-          optionContainer.appendChild(optionItem);
+  xhttp.onreadystatechange = (e) => {
+    if (xhttp.readyState == XMLHttpRequest.DONE) {
+      let pollOptions = document.querySelectorAll('.option')
+      let pollCounters = document.querySelectorAll('.counter')
 
-          let optionCounter = document.createElement("DIV");
-          optionCounter.classList.add('counter');
+      let pollData = JSON.parse(xhttp.responseText);
+      console.log('polldata: ' + pollData);
+      for (let p = 0; p < pollData.options.length; p++) {
+        console.log(pollData);
+        pollOptions[p].innerHTML = pollData.options[p];
+        pollCounters[p].innerHTML = pollData.votes[p];
+      }
 
-          console.log('got some votes');
-          console.log(pollResp.votes);
-          console.log(pollResp.options);
-          optionCounter.textContent = pollResp.votes[pollResp.options.indexOf(p)];
-
-          optionContainer.appendChild(optionCounter);
-          options.appendChild(optionContainer);
-      })*/
       let votes = [];
       document.querySelectorAll('.counter').forEach (c => {
         c = c.textContent * 1;
@@ -276,8 +301,19 @@ function getPoll() {
         document.querySelectorAll('.counter').forEach (c => {
           if (c.textContent * 1 == highestVote) {
             c.classList.add('highest');
+          } else {
+          if (c.classList.contains('highest')) {
+            c.classList.remove('highest');
           }
-        })
+         }
+      })
+    }
+
+  }
+      let edits = document.getElementById('pollId').textContent;
+      edits = edits.replace(/\s+/g, '')
+      xhttp.open('GET', `/refresh/?poll=${edits}`, true);
+      xhttp.send();
 }
 
 options.addEventListener("click", event => {
@@ -289,7 +325,8 @@ options.addEventListener("click", event => {
     let count = (event.target.innerHTML * 1) + 1;
     event.target.innerHTML = count.toString();
   }
-  editPoll();
+  //editPoll();
+  getPoll();
 });
 
 addOption.addEventListener("click", event => {
@@ -328,8 +365,6 @@ function editPoll() {
   for (let y = 0; y < optionsCounters.length; y++) {
     countersList.push(optionsCounters[y].textContent);
   }
-  console.log('counters: ' + countersList);
-  console.log('options: ' + optionsList);
 
 //  console.log('optionsNcounters: ' + optionsNcounters);
   xhttp.open("POST", "/editpoll", true);

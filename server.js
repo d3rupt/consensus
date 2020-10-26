@@ -22,21 +22,26 @@ app.get('/', async(req, res) => {
 })
 app.get("/showpoll", async(req, res) => {
   console.log('TRYING TO GET POLL...')
-  console.log('poll request: ' + req.query.poll);
   let poll = req.query.poll;
   pollId = poll;
   const pollSearch = await Poll.findOne({_id: poll});
-  console.log('QUERY: ' + pollSearch);
-  console.log('TITLE: ' + pollSearch.title)
   res.render("pollView.ejs", {
     title: pollSearch.title,
     description: pollSearch.description,
     options: pollSearch.options,
     votes: pollSearch.votes,
+    id: pollId
   })
 })
 
+app.get('/refresh', async(req, res) => {
+  let poll = req.query.poll;
+  console.log('POLLSEARCH:' + poll);
+  const pollSearch = await Poll.findOne({_id: poll});
+  res.json(pollSearch);
+  console.log('POLLSEARCH:' + pollSearch);
 
+})
 app.get('/list', async(req, res) => {
   res.render('pollList.ejs')
 })
