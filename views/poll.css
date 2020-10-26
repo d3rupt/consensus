@@ -11,7 +11,7 @@
 }
 
 body {
-  background: url('embossedbackground2.png');
+  background: url('embossedbackground22.png');
   background-size: 500%;
   margin: 0;
   padding: 0;
@@ -46,9 +46,10 @@ input:focus {
 }
 .topWrapper {
   flex-direction: column;
-  height: 20vh;
+  height: 10vh;
 }
 .topRow {
+  position: sticky;
   background: #333;
   height: 7.5vh;
   width: 100%;
@@ -67,7 +68,7 @@ input:focus {
 }
 .logo {
   color: rgba(255,255,255,0.75);
-  background: linear-gradient( rgb(255, 63, 0), red);
+  background: linear-gradient(rgb(255, 100, 0), darkred);
   width: 5vh;
   height: 5vh;
   border-radius: 40%;
@@ -179,7 +180,7 @@ input:focus {
 }
 .optionsList {
   flex-direction: column;
-
+  list-style-type: none;
 }
 .pollAddButton {
 }
@@ -188,6 +189,10 @@ input:focus {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+.pollAddInput p {
+  font-size: 0.7em;
+  font-style: italic;
 }
 .addOption {
   text-justify: center;
@@ -211,9 +216,9 @@ input:focus {
 .waiting, .finished {
   position: absolute;
   top: 0;
-  left: -100%;;
+  left: -100%;
   width: 100%;
-  height: 100%;
+  height: 110%;
   transition: all 0.25s;
   align-items: center;
   justify-content: center;

@@ -3,32 +3,37 @@ const Poll = require('./models/poll');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-app.use(express.static('./views'));
+const url = require('url');
+const querystring = require('querystring');
 const PORT = process.env.PORT || 8000;
 
 
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static( '__dirname' ) );
 app.use(bodyParser.json());
 app.use(express.json());
+app.use("/views", express.static(__dirname + './views'));
 app.use(express.static('./views'));
 
 
 app.get('/', async(req, res) => {
   res.render('poll.ejs')
 })
-app.get("/showPoll", (req, res) => {
-  res.render('pollView.ejs');
-})
-let pollId;
-app.post("/pollId", (req, res) => {
-  pollId = req.body.id;
-})
-app.get("/pollId", async(req, res) => {
-  console.log('pollId: ' + pollId);
-  let poll = await Poll.findOne({_id: pollId});
-  console.log('POLL: ' + poll);
-  res.json(poll);
+app.get("/showpoll", async(req, res) => {
+  console.log('TRYING TO GET POLL...')
+  console.log('poll request: ' + req.query.poll);
+  let poll = req.query.poll;
+  pollId = poll;
+  const pollSearch = await Poll.findOne({_id: poll});
+  console.log('QUERY: ' + pollSearch);
+  console.log('TITLE: ' + pollSearch.title)
+  res.render("pollView.ejs", {
+    title: pollSearch.title,
+    description: pollSearch.description,
+    options: pollSearch.options,
+    votes: pollSearch.votes,
+  })
 })
 
 
@@ -51,6 +56,7 @@ app.post('/submitPoll', async(req, res) => {
   let newPoll = await poll.save();
   res.status('200').send();
 })
+
 app.post('/editpoll', async (req, res) => {
   try {
       const updatedPoll = await Poll.findOneAndUpdate(

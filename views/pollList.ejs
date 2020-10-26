@@ -17,7 +17,7 @@
 }
 
 body {
-  background: url('embossedbackground2.png');
+  background: url('embossedbackground22.png');
   background-size: 500%;
   margin: 0;
   padding: 0;
@@ -55,6 +55,7 @@ input:focus {
   height: 20vh;
 }
 .topRow {
+  position: fixed;
   background: #333;
   height: 7.5vh;
   width: 100%;
@@ -169,7 +170,7 @@ background: rgb(255, 63, 0);
     <div class="container topRow">
       <div class="container topRowItem" id="title">
         <div class="container logo">
-          <i class="container fas fa-poll fa-lg"></i>
+          <i class="container far fa-chart-bar fa-lg"></i>
 
         </div>
         <h1>Consensus</h1>
@@ -250,16 +251,17 @@ window.onload = () => {
     xhttp.open("GET", "/getlist", true);
     xhttp.send();
   }
+  let pollId;
+
   pollList.addEventListener("click", (event) => {
-    let pollId;
     if (event.target.classList.contains("pollName")) {
       pollId = event.target.id
     } else if (event.target.classList.contains("pollNameX")) {
         pollId = event.target.parentElement.id;
       } else {return;}
       console.log('clicked' + event.target.id);
-      console.log('pollId: ' + pollId);
-      xhttp.open("POST", `/pollId`, true);
+      window.location.href = `/showpoll/?poll=${pollId}`;
+  /*    xhttp.open("POST", `/pollId`, true);
       xhttp.setRequestHeader('Content-Type', 'application/json');
       console.log('test before send: ' + pollId);
       xhttp.send(JSON.stringify({'id': pollId}));
