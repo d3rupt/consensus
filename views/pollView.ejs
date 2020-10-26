@@ -158,6 +158,11 @@
   }
   .optionContainer {
     flex-direction: column;
+    opacity: 1;
+    transition: opacity 1s;
+  }
+  .pollInactive {
+    opacity: 0;
   }
   .option, .counter {
     text-align: center;
@@ -167,12 +172,12 @@
     border: 2px solid #333;
     color: white;
     background: grey;
-    transition: background 1s, box-shadow 1s;
+    transition: background 0.5s, box-shadow 0.5s;
   }
   .highest {
-    background: green;
-    box-shadow: 0 0 5px green;
-    transition: background 1s, box-shadow 1s;
+    background: rgb(255,63,0);
+    box-shadow: 0 0 5px rgb(255,63,0);
+    transition: background 0.5s, box-shadow 0.5s;
 
   }
 </style>
@@ -227,7 +232,7 @@
       <div class="container pollViewOptions">
         <div id="pollViewOptions">
           <% options.forEach(o => { %>
-            <div class="container optionContainer">
+            <div class="container optionContainer pollInactive">
               <div class="option">
                 <%= o %>
               </div>
@@ -260,15 +265,32 @@ function getPoll() {
   options = document.getElementById('pollViewOptions');
   let optionsToSend = options.querySelectorAll('.option');
   let optionsCounters = options.querySelectorAll('.counter');
+  let optionContainers = options.querySelectorAll('.optionContainer');
   let optionsList = [];
   let countersList = [];
   for(let x = 0; x < optionsToSend.length; x++) {
+    optionContainers[x].classList.remove('pollInactive');
   //  console.log('optinosToSend: ' + optionsToSend[x].textContent);
     optionsList.push(optionsToSend[x].textContent);
   }
   for (let y = 0; y < optionsCounters.length; y++) {
     countersList.push(optionsCounters[y].textContent);
   }
+  let votes = [];
+  document.querySelectorAll('.counter').forEach (c => {
+    c = c.textContent * 1;
+    votes.push(c);
+  })
+  let highestVote = Math.max(...votes);
+    document.querySelectorAll('.counter').forEach (c => {
+      if (c.textContent * 1 == highestVote) {
+        c.classList.add('highest');
+      } else {
+      if (c.classList.contains('highest')) {
+        c.classList.remove('highest');
+      }
+     }
+  })
   xhttp.open("POST", "/editpoll", true);
   xhttp.setRequestHeader('Content-Type', 'application/json');
   console.log('optionslist: ' +  optionsList);
@@ -296,21 +318,7 @@ function getPoll() {
       xhttp.open('GET', `/refresh/?poll=${edits}`, true);
       xhttp.send();
 
-      let votes = [];
-      document.querySelectorAll('.counter').forEach (c => {
-        c = c.textContent * 1;
-        votes.push(c);
-      })
-      let highestVote = Math.max(...votes);
-        document.querySelectorAll('.counter').forEach (c => {
-          if (c.textContent * 1 == highestVote) {
-            c.classList.add('highest');
-          } else {
-          if (c.classList.contains('highest')) {
-            c.classList.remove('highest');
-          }
-         }
-      })
+
 
 }
 
