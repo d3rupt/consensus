@@ -6,14 +6,14 @@ let title = document.getElementById("pollTitle"),
     optionsList = document.querySelector('.optionsList');
     let loader = document.querySelector('.loader');
 
-window.onload = () => {
+/*window.onload = () => {
   setTimeout(() => {
     loader.classList.add('loaded')
     loader.addEventListener('transitionend', () => {
       loader.style.display="none";
     })
   }, 1000)
-}
+}*/
 function addOptionToList() {
   if (option.value.length == 0) {
     alert("You must write something.")
