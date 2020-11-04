@@ -6,6 +6,7 @@
 <style>
   * {
     font-family: "Roboto";
+    box-sizing: border-box;
   }
   .container {
     display: flex;
@@ -15,11 +16,20 @@
     margin: 0;
     padding: 0;
   }
-  /*General*/
-  * {
-    font-family: "Roboto";
-    box-sizing: border-box;
+  .loader {
+    z-index: 10000;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: white;
+    opacity: 1;
+    transition: opacity 1s;
   }
+  .loaded {
+    opacity: 0;
+  }
+  /*General*/
+
   .container {
     display: flex;
   }
@@ -159,7 +169,7 @@
   .optionContainer {
     flex-direction: column;
     opacity: 1;
-    transition: opacity 1s;
+    transition: opacity 0.5s;
   }
   .pollInactive {
     opacity: 0;
@@ -183,6 +193,9 @@
 </style>
 <body style=" background-image: url('/embossedbackground22.png');
 ">
+<div class="container loader">
+
+</div>
   <div class="container topWrapper">
     <div class="container topRow">
       <div class="container topRowItem" id="title">
@@ -258,8 +271,14 @@ let description = document.getElementById('pollViewDescription');
 let options = document.getElementById('pollViewOptions');
 let addOption = document.getElementById('pollAdd');
 
-window.onload = getPoll();
-
+window.onload = () => {
+  let loader = document.querySelector('.loader');
+  loader.classList.add('loaded')
+  loader.addEventListener('transitionend', () => {
+    console.log('loaded');
+    loader.style.display="none";
+  getPoll();
+})}
 function getPoll() {
   /////////////////////////////////
   options = document.getElementById('pollViewOptions');

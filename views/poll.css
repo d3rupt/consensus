@@ -35,14 +35,92 @@ input:focus {
 .loader {
   z-index: 10000;
   position: absolute;
+  flex-direction: column;
   height: 100%;
   width: 100%;
-  background: white;
+  background: rgb(0, 126, 101);
   opacity: 1;
   transition: opacity 1s;
 }
 .loaded {
   opacity: 0;
+}
+.pollAnim {
+  width: 100%;
+  height: 50%;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2.5%;
+}
+.animContainer {
+  width: 25%;
+  height: 75%;
+  background: rgba(0,0,0,0.25);
+  border-bottom: 7px solid #333;
+  border-left: 7px solid #333;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding-bottom: 1.25%;
+}
+.poll1, .poll2, .poll3 {
+  width: 25%;
+  height: 5%;
+  background: grey;
+  border: 3px solid rgba(255,255,255,0.5);
+}
+.poll1 {
+  animation: poll 1s ease-in 0s infinite alternate running none;
+}
+.poll2 {
+  animation: poll 2s ease-in 0.5s infinite alternate running none;
+}
+.poll3 {
+  animation: poll 1.5s ease-in 0.3s infinite alternate running none;
+}
+
+@keyframes poll {
+  0% {
+    height: 5%;
+    background: grey;
+  }
+  50% {
+    background: grey;
+  }
+  100% {
+    height: 100%;
+    background: rgb(255,63,0);
+  }
+}
+@-webkit-keyframes poll {
+  0% {
+    height: 5%;
+    background: grey;
+  }
+  50% {
+    background: grey;
+  }
+  100% {
+    height: 100%;
+    background: rgb(255,63,0);
+  }
+}
+@-moz-keyframes poll {
+  0% {
+    height: 5%;
+    background: grey;
+  }
+  50% {
+    background: grey;
+  }
+  100% {
+    height: 100%;
+    background: rgb(255,63,0);
+  }
+}
+.loaderText {
+  justify-content: center;
+  color: white;
+  font-size: 2em;
 }
 .topWrapper {
   flex-direction: column;

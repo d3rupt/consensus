@@ -7,10 +7,12 @@ let title = document.getElementById("pollTitle"),
     let loader = document.querySelector('.loader');
 
 window.onload = () => {
-  loader.classList.add('loaded')
-  loader.addEventListener('transitionend', () => {
-    loader.style.display="none";
-  })
+  setTimeout(() => {
+    loader.classList.add('loaded')
+    loader.addEventListener('transitionend', () => {
+      loader.style.display="none";
+    })
+  }, 1000)
 }
 function addOptionToList() {
   if (option.value.length == 0) {
